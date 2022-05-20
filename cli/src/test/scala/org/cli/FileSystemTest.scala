@@ -32,4 +32,13 @@ class FileSystemTest extends AnyFunSuite {
     assert(fs.listDirectory(name = "/test/directory") == Seq())
   }
 
+  test(testName = "Delete directory"){
+    val fs =FileSystem()
+    fs.createDirectory(path = "/test/directory")
+    assert(fs.listDirectory("/test") == Seq("/test/directory"))
+    fs.deleteDirectory("/test/directory")
+    assert(fs.listDirectory("/test") == Seq())
+
+  }
+
 }

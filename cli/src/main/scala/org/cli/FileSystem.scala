@@ -52,8 +52,32 @@ case class FileSystem() {
     }
     currentDir.children.map(name + "/" + _.name)
   }
-}
 
+  def deleteDirectory(path: AbsolutePath): Unit = {
+    val paths = path.split('/').tail // /source/damian
+    var i = 0
+    var currentDir: Directory = root //empieza siendo el root
+    paths.foreach { name => //temp var
+      val maybeNode: Option[Node] = currentDir.children.find(_.name == name) //busca el nombre en el hijo del current. option[node], si lo encuentra devuelve nodo sino none
+      if (maybeNode.isDefined && maybeNode.get.isInstanceOf[Directory] && paths.length - 1 == i) {
+        currentDir.children = currentDir.children.filter(_.name != name)
+      } else if (maybeNode.isDefined && maybeNode.get.isInstanceOf[Directory]) {
+        currentDir = maybeNode.get.asInstanceOf[Directory]
+      }
+      i = i + 1
+
+
+      /*else if(name == paths.last) {//aca tenes que borrar el elemento
+        //val newDirectory = Directory(name)
+        currentDir.children = currentDir.children.filter(elem => elem ==name)// children = lista de nodos
+      }*/
+
+    }
+  }
+
+
+
+}
 
 
 
